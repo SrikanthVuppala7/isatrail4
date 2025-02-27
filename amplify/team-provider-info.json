@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-culinaryexplorer-dev-b11f7-authRole",
+      "UnauthRoleArn": "arn:aws:iam::061051242859:role/amplify-culinaryexplorer-dev-b11f7-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::061051242859:role/amplify-culinaryexplorer-dev-b11f7-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-culinaryexplorer-dev-b11f7-deployment",
+      "UnauthRoleName": "amplify-culinaryexplorer-dev-b11f7-unauthRole",
+      "StackName": "amplify-culinaryexplorer-dev-b11f7",
+      "StackId": "arn:aws:cloudformation:ap-south-1:061051242859:stack/amplify-culinaryexplorer-dev-b11f7/86301a50-f45d-11ef-a801-0607b10a86b5",
+      "AmplifyAppId": "d371m4nenuyvgq"
+    },
+    "categories": {
+      "api": {
+        "culinaryexplorer": {}
+      },
+      "auth": {
+        "culinaryexplorerd1d063f9": {}
+      }
+    }
+  }
+}
