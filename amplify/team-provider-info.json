@@ -12,9 +12,6 @@
       "AmplifyAppId": "d371m4nenuyvgq"
     },
     "categories": {
-      "api": {
-        "culinaryexplorer": {}
-      },
       "auth": {
         "culinaryexplorerd1d063f9": {}
       }
