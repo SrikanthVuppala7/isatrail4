@@ -4,6 +4,9 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router'; // Import Stack from expo-router
 import { CartProvider } from '../context/cartcontext'; // Adjust path as needed
+import { Amplify } from 'aws-amplify';
+import config from '../../src/amplifyconfiguration.json';
+Amplify.configure(config);
 
 const RootLayout: React.FC = () => {
   return (
@@ -50,4 +53,4 @@ const RootLayout: React.FC = () => {
   );
 };
 
-export default RootLayout;
+export default (RootLayout);
