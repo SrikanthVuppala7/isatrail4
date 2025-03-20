@@ -1,6 +1,9 @@
 // app/delivery/_layout.tsx
 import { Stack } from 'expo-router';
-
+import { Amplify } from 'aws-amplify';
+import config from '../../../src/amplifyconfiguration.json';
+import { withAuthenticator } from '@aws-amplify/ui-react-native';
+Amplify.configure(config);
 const DeliveryLayout = () => {
   return (
     <Stack>
@@ -12,4 +15,4 @@ const DeliveryLayout = () => {
   );
 };
 
-export default DeliveryLayout;
+export default (DeliveryLayout);

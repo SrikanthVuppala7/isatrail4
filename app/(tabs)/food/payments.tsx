@@ -1,7 +1,7 @@
-// app/(tabs)/delivery/Payments.tsx
+// app/(tabs)/food/delivery/Payments.tsx
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useCart } from '../../context/cartcontext';
+import { useCart } from '../../context/cartcontext'; // Adjust path
 import { useRouter } from 'expo-router';
 
 interface CartItem {
@@ -20,8 +20,8 @@ interface Chef {
   dishes: string[];
 }
 
-const payments: React.FC = () => {
-  const { cartItems, bookedChef } = useCart();
+const Payments: React.FC = () => {
+  const { cartItems, bookedChef, clearCart, addOrder } = useCart();
   const router = useRouter();
 
   const calculateTotal = () => {
@@ -39,6 +39,8 @@ const payments: React.FC = () => {
   const total = calculateTotal();
 
   const handlePayment = () => {
+    if (!bookedChef || cartItems.length === 0) return;
+
     Alert.alert(
       'Confirm Payment',
       `Total: $${total.toFixed(2)}\nProceed with payment?`,
@@ -47,8 +49,21 @@ const payments: React.FC = () => {
         {
           text: 'Pay',
           onPress: () => {
-            Alert.alert('Success', 'Payment processed successfully!');
-            router.push('/(tabs)/food/delivery');
+            const order = {
+              id: Date.now().toString(),
+              items: [...cartItems],
+              chef: { ...bookedChef }, // Save full Chef object
+              total,
+              date: new Date().toLocaleString(),
+            };
+            addOrder(order);
+            clearCart();
+            Alert.alert('Success', 'Payment processed successfully!', [
+              {
+                text: 'OK',
+                onPress: () => router.push('/(tabs)/food/delivery'),
+              },
+            ]);
           },
         },
       ]
@@ -115,76 +130,97 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8EDEB',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#2E2E2E',
+    marginBottom: 25,
     textAlign: 'center',
   },
   section: {
-    marginBottom: 20,
+    marginBottom: 25,
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#2E2E2E',
     marginBottom: 10,
   },
   detailText: {
     fontSize: 16,
-    color: '#333',
+    color: '#555555',
+    lineHeight: 22,
   },
   itemContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 5,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
   },
   itemName: {
     fontSize: 16,
-    color: '#333',
+    color: '#2E2E2E',
+    fontWeight: '500',
   },
   itemPrice: {
     fontSize: 16,
-    color: '#666',
+    color: '#6B705C',
   },
   cartList: {
-    maxHeight: 200,
+    maxHeight: 220,
   },
   totalContainer: {
     marginTop: 20,
     alignItems: 'center',
   },
   totalText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5c5be3',
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#6B705C',
   },
   payButton: {
-    backgroundColor: '#5c5be3',
-    padding: 15,
-    borderRadius: 5,
+    backgroundColor: '#6B705C',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 25,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
   backButton: {
-    backgroundColor: '#e35b5b',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#FF6F61',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 25,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 15,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   emptyText: {
     fontSize: 18,
     textAlign: 'center',
     marginTop: 50,
-    color: '#666',
+    color: '#555555',
   },
 });
 
-export default payments;
+export default Payments;

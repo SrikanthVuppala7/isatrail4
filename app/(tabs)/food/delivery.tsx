@@ -1,11 +1,14 @@
 // app/(tabs)/delivery/index.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, ScrollView, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useCart } from '../../context/cartcontext';
 import { useRouter } from 'expo-router';
+import { API, graphqlOperation } from 'aws-amplify';
 
+// Define interfaces matching your schema
 interface Item {
   id: string;
+  type: string;
   name: string;
   price: string;
   image: string;
@@ -22,33 +25,83 @@ interface Chef {
   dishes: string[];
 }
 
+// Define response types for GraphQL queries
+interface ListItemsResponse {
+  listItems: {
+    items: Item[];
+  };
+}
+
+interface ListChefsResponse {
+  listChefs: {
+    items: Chef[];
+  };
+}
+
+// GraphQL Queries
+const listItems = `
+  query ListItems {
+    listItems {
+      items {
+        id
+        type
+        name
+        price
+        image
+        ingredients
+      }
+    }
+  }
+`;
+
+const listChefs = `
+  query ListChefs {
+    listChefs {
+      items {
+        id
+        name
+        price
+        image
+        rating
+        dishes
+      }
+    }
+  }
+`;
+
 const Delivery: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { addToCart, bookedChef, setBookedChef, cartItems } = useCart();
   const [confirmItemId, setConfirmItemId] = useState<string | null>(null);
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [dishesData, setDishesData] = useState<Item[]>([]);
+  const [recommendedData, setRecommendedData] = useState<Item[]>([]);
+  const [chefsData, setChefsData] = useState<Chef[]>([]);
   const router = useRouter();
 
-  console.log('Delivery - Booked Chef on render:', bookedChef);
+  // Fetch data from AppSync on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch Items with explicit typing
+        const itemResponse = await API.graphql(graphqlOperation(listItems)) as { data: ListItemsResponse };
+        const items = itemResponse.data.listItems.items;
+        setDishesData(items.filter(item => item.type === 'dishes'));
+        setRecommendedData(items.filter(item => item.type === 'recommended'));
 
-  const dishesData: Item[] = [
-    { id: '1', name: 'Pasta', price: '$12.99', image: 'path_to_image', ingredients: ['Pasta', 'Tomato Sauce', 'Parmesan'] },
-    { id: '2', name: 'Pizza', price: '$10.99', image: 'path_to_image', ingredients: ['Dough', 'Mozzarella', 'Pepperoni'] },
-    { id: '3', name: 'Burger', price: '$8.99', image: 'path_to_image', ingredients: ['Bun', 'Beef Patty', 'Lettuce'] },
-  ];
+        // Fetch Chefs with explicit typing
+        const chefResponse = await API.graphql(graphqlOperation(listChefs)) as { data: ListChefsResponse };
+        const chefs = chefResponse.data.listChefs.items;
+        setChefsData(chefs);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  const recommendedData: Item[] = [
-    { id: '4', name: 'Sushi', price: '$15.99', image: 'path_to_image', ingredients: ['Rice', 'Salmon', 'Seaweed'] },
-    { id: '5', name: 'Salad', price: '$9.99', image: 'path_to_image', ingredients: ['Lettuce', 'Tomato', 'Cucumber'] },
-    { id: '6', name: 'Steak', price: '$18.99', image: 'path_to_image', ingredients: ['Beef', 'Salt', 'Pepper'] },
-  ];
+    fetchData();
+  }, []);
 
-  const chefsData: Chef[] = [
-    { id: '7', name: 'Chef John', price: '$25/hr', image: 'path_to_image', rating: 4.5, dishes: ['1', '4'] },
-    { id: '8', name: 'Chef Maria', price: '$30/hr', image: 'path_to_image', rating: 4.8, dishes: ['2', '5'] },
-    { id: '9', name: 'Chef Alex', price: '$28/hr', image: 'path_to_image', rating: 4.2, dishes: ['3', '6'] },
-  ];
-
+  // Rest of your component remains unchanged...
   const filteredDishes = dishesData.filter(item => 
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -109,6 +162,17 @@ const Delivery: React.FC = () => {
     setBookedChef(null);
   };
 
+  const handleChefPress = (chef: Chef) => {
+    router.push({
+      pathname: '/(tabs)/food/ChefDetails',
+      params: {
+        chef: JSON.stringify(chef),
+        bookedChef: JSON.stringify(bookedChef),
+        allDishes: JSON.stringify([...dishesData, ...recommendedData]),
+      },
+    });
+  };
+
   const renderFoodItem = ({ item }: { item: Item }) => (
     <View style={styles.itemContainer}>
       <TouchableOpacity onPress={() => handleDishPress(item)}>
@@ -162,7 +226,7 @@ const Delivery: React.FC = () => {
 
   const renderChefItem = ({ item }: { item: Chef }) => (
     <View style={styles.itemContainer}>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={() => handleChefPress(item)}>
         <Image source={{ uri: item.image }} style={styles.image} />
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemPrice}>{item.price}</Text>
@@ -235,6 +299,7 @@ const Delivery: React.FC = () => {
   );
 };
 
+// Styles remain unchanged
 const styles = StyleSheet.create({
   container: {
     flex: 1,

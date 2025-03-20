@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "culinaryexplorerd1d063f9_identitypool_d1d063f9",
+    "identityPoolName": "culinaryexplorer22e0ff08_identitypool_22e0ff08",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "culinad1d063f9",
-    "userPoolName": "culinaryexplorerd1d063f9_userpool_d1d063f9",
+    "resourceNameTruncated": "culina22e0ff08",
+    "userPoolName": "culinaryexplorer22e0ff08_userpool_22e0ff08",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "culinad1d063f9_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "culina22e0ff08_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "d1d063f9",
-    "resourceName": "culinaryexplorerd1d063f9",
+    "sharedId": "22e0ff08",
+    "resourceName": "culinaryexplorer22e0ff08",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "usernameAttributes": [

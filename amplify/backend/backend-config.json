@@ -1,7 +1,26 @@
 {
-  "api": {},
+  "api": {
+    "culinaryexplorer": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2025-03-27T04:52:17.069Z",
+              "apiKeyExpirationDays": 7,
+              "description": ""
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
   "auth": {
-    "culinaryexplorerd1d063f9": {
+    "culinaryexplorer22e0ff08": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {

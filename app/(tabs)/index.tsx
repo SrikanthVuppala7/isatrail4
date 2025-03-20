@@ -51,7 +51,7 @@ export default function home() {
       {/* Logo */}
       <View style={styles.logoContainer}>
         <Image source={require('@/assets/images/image.png')} style={styles.image} />
-        <Text style={styles.title}>Culinary Explorer</Text>
+        <Text style={styles.title}>SimplChefs</Text>
         <Text style={styles.description}>{displayText}<Text style={styles.cursor}>|</Text></Text>
       </View>
 
@@ -112,4 +112,3 @@ const styles = StyleSheet.create({
     textTransform: 'none', 
   },
 });
-

@@ -2,11 +2,12 @@ export type AmplifyDependentResourcesAttributes = {
   "api": {
     "culinaryexplorer": {
       "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string"
+      "GraphQLAPIIdOutput": "string",
+      "GraphQLAPIKeyOutput": "string"
     }
   },
   "auth": {
-    "culinaryexplorerd1d063f9": {
+    "culinaryexplorer22e0ff08": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
