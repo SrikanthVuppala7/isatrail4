@@ -1,0 +1,8 @@
+{
+    "AppSyncApiName": "culinaryexplorer",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthModeLastUpdated": "2025-03-20T04:52:22.664Z",
+    "S3DeploymentBucket": "amplify-culinaryexplorer-dev-b11f7-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/b0b5ac52ac5d04a4ab51cf277a00d1fb87e393a8"
+}

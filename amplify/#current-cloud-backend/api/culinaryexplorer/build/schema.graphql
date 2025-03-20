@@ -1,0 +1,410 @@
+type Item {
+  id: ID!
+  type: String!
+  name: String!
+  price: String!
+  image: String!
+  ingredients: [String!]!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Chef {
+  id: ID!
+  name: String!
+  price: String!
+  image: String!
+  rating: Float!
+  dishes: [String!]!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type CartItem {
+  id: ID!
+  name: String!
+  price: String!
+  image: String!
+  userId: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelItemConnection {
+  items: [Item]!
+  nextToken: String
+}
+
+input ModelItemFilterInput {
+  id: ModelIDInput
+  type: ModelStringInput
+  name: ModelStringInput
+  price: ModelStringInput
+  image: ModelStringInput
+  ingredients: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelItemFilterInput]
+  or: [ModelItemFilterInput]
+  not: ModelItemFilterInput
+}
+
+type Query {
+  getItem(id: ID!): Item
+  listItems(filter: ModelItemFilterInput, limit: Int, nextToken: String): ModelItemConnection
+  getChef(id: ID!): Chef
+  listChefs(filter: ModelChefFilterInput, limit: Int, nextToken: String): ModelChefConnection
+  getCartItem(id: ID!): CartItem
+  listCartItems(filter: ModelCartItemFilterInput, limit: Int, nextToken: String): ModelCartItemConnection
+}
+
+input ModelItemConditionInput {
+  type: ModelStringInput
+  name: ModelStringInput
+  price: ModelStringInput
+  image: ModelStringInput
+  ingredients: ModelStringInput
+  and: [ModelItemConditionInput]
+  or: [ModelItemConditionInput]
+  not: ModelItemConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+}
+
+input CreateItemInput {
+  id: ID
+  type: String!
+  name: String!
+  price: String!
+  image: String!
+  ingredients: [String!]!
+}
+
+input UpdateItemInput {
+  id: ID!
+  type: String
+  name: String
+  price: String
+  image: String
+  ingredients: [String!]
+}
+
+input DeleteItemInput {
+  id: ID!
+}
+
+type Mutation {
+  createItem(input: CreateItemInput!, condition: ModelItemConditionInput): Item
+  updateItem(input: UpdateItemInput!, condition: ModelItemConditionInput): Item
+  deleteItem(input: DeleteItemInput!, condition: ModelItemConditionInput): Item
+  createChef(input: CreateChefInput!, condition: ModelChefConditionInput): Chef
+  updateChef(input: UpdateChefInput!, condition: ModelChefConditionInput): Chef
+  deleteChef(input: DeleteChefInput!, condition: ModelChefConditionInput): Chef
+  createCartItem(input: CreateCartItemInput!, condition: ModelCartItemConditionInput): CartItem
+  updateCartItem(input: UpdateCartItemInput!, condition: ModelCartItemConditionInput): CartItem
+  deleteCartItem(input: DeleteCartItemInput!, condition: ModelCartItemConditionInput): CartItem
+}
+
+input ModelSubscriptionItemFilterInput {
+  id: ModelSubscriptionIDInput
+  type: ModelSubscriptionStringInput
+  name: ModelSubscriptionStringInput
+  price: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  ingredients: ModelSubscriptionStringInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionItemFilterInput]
+  or: [ModelSubscriptionItemFilterInput]
+}
+
+type Subscription {
+  onCreateItem(filter: ModelSubscriptionItemFilterInput): Item @aws_subscribe(mutations: ["createItem"])
+  onUpdateItem(filter: ModelSubscriptionItemFilterInput): Item @aws_subscribe(mutations: ["updateItem"])
+  onDeleteItem(filter: ModelSubscriptionItemFilterInput): Item @aws_subscribe(mutations: ["deleteItem"])
+  onCreateChef(filter: ModelSubscriptionChefFilterInput): Chef @aws_subscribe(mutations: ["createChef"])
+  onUpdateChef(filter: ModelSubscriptionChefFilterInput): Chef @aws_subscribe(mutations: ["updateChef"])
+  onDeleteChef(filter: ModelSubscriptionChefFilterInput): Chef @aws_subscribe(mutations: ["deleteChef"])
+  onCreateCartItem(filter: ModelSubscriptionCartItemFilterInput): CartItem @aws_subscribe(mutations: ["createCartItem"])
+  onUpdateCartItem(filter: ModelSubscriptionCartItemFilterInput): CartItem @aws_subscribe(mutations: ["updateCartItem"])
+  onDeleteCartItem(filter: ModelSubscriptionCartItemFilterInput): CartItem @aws_subscribe(mutations: ["deleteCartItem"])
+}
+
+type ModelChefConnection {
+  items: [Chef]!
+  nextToken: String
+}
+
+input ModelChefFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  price: ModelStringInput
+  image: ModelStringInput
+  rating: ModelFloatInput
+  dishes: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelChefFilterInput]
+  or: [ModelChefFilterInput]
+  not: ModelChefFilterInput
+}
+
+input ModelChefConditionInput {
+  name: ModelStringInput
+  price: ModelStringInput
+  image: ModelStringInput
+  rating: ModelFloatInput
+  dishes: ModelStringInput
+  and: [ModelChefConditionInput]
+  or: [ModelChefConditionInput]
+  not: ModelChefConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+}
+
+input CreateChefInput {
+  id: ID
+  name: String!
+  price: String!
+  image: String!
+  rating: Float!
+  dishes: [String!]!
+}
+
+input UpdateChefInput {
+  id: ID!
+  name: String
+  price: String
+  image: String
+  rating: Float
+  dishes: [String!]
+}
+
+input DeleteChefInput {
+  id: ID!
+}
+
+input ModelSubscriptionChefFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  price: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  rating: ModelSubscriptionFloatInput
+  dishes: ModelSubscriptionStringInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionChefFilterInput]
+  or: [ModelSubscriptionChefFilterInput]
+}
+
+type ModelCartItemConnection {
+  items: [CartItem]!
+  nextToken: String
+}
+
+input ModelCartItemFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  price: ModelStringInput
+  image: ModelStringInput
+  userId: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelCartItemFilterInput]
+  or: [ModelCartItemFilterInput]
+  not: ModelCartItemFilterInput
+}
+
+input ModelCartItemConditionInput {
+  name: ModelStringInput
+  price: ModelStringInput
+  image: ModelStringInput
+  userId: ModelStringInput
+  and: [ModelCartItemConditionInput]
+  or: [ModelCartItemConditionInput]
+  not: ModelCartItemConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+}
+
+input CreateCartItemInput {
+  id: ID
+  name: String!
+  price: String!
+  image: String!
+  userId: String!
+}
+
+input UpdateCartItemInput {
+  id: ID!
+  name: String
+  price: String
+  image: String
+  userId: String
+}
+
+input DeleteCartItemInput {
+  id: ID!
+}
+
+input ModelSubscriptionCartItemFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  price: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  userId: ModelSubscriptionStringInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionCartItemFilterInput]
+  or: [ModelSubscriptionCartItemFilterInput]
+}

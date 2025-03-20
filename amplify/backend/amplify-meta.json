@@ -1,0 +1,45 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-culinaryexplorer-dev-b11f7-authRole",
+      "UnauthRoleArn": "arn:aws:iam::061051242859:role/amplify-culinaryexplorer-dev-b11f7-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::061051242859:role/amplify-culinaryexplorer-dev-b11f7-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-culinaryexplorer-dev-b11f7-deployment",
+      "UnauthRoleName": "amplify-culinaryexplorer-dev-b11f7-unauthRole",
+      "StackName": "amplify-culinaryexplorer-dev-b11f7",
+      "StackId": "arn:aws:cloudformation:ap-south-1:061051242859:stack/amplify-culinaryexplorer-dev-b11f7/86301a50-f45d-11ef-a801-0607b10a86b5",
+      "AmplifyAppId": "d371m4nenuyvgq"
+    }
+  },
+  "api": {
+    "culinaryexplorer": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7,
+              "apiKeyExpirationDate": "2025-03-27T04:52:17.069Z",
+              "description": ""
+            }
+          },
+          "additionalAuthenticationProviders": []
+        },
+        "GraphQLAPIIdOutput": "tq2ffloixjdvzkmp7rnjvutmgm",
+        "GraphQLAPIEndpointOutput": "https://ke6lc52vmfa2pp562mm7kwcr4y.appsync-api.ap-south-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-rxov26iivjfebhmjb3edzi4ria"
+      },
+      "lastPushTimeStamp": "2025-03-20T05:45:04.256Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-culinaryexplorer-dev-b11f7-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiculinaryexplorer"
+      },
+      "lastPushDirHash": "TRYAVGX7QciGDO+/WBo+pb8YMS8="
+    }
+  },
+  "auth": {}
+}
